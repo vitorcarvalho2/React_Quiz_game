@@ -1,0 +1,586 @@
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Sora", sans-serif;
+  line-height: 1.5;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 2rem;
+  background: radial-gradient(
+    circle at 50% 70%,
+    var(--bg-primary) 0%,
+    var(--bg-dark) 100%
+  );
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+      circle at 33% 15%,
+      var(--bg-primary) 0%,
+      transparent 50%
+    ),
+    radial-gradient(circle at 67% 15%, var(--bg-primary) 0%, transparent 50%),
+    radial-gradient(circle at 50% 8%, var(--bg-primary) 0%, transparent 50%);
+  background-position: 0 0, 0 0, 0 0;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: -1;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+header img {
+  width: 3rem;
+  height: 3rem;
+  filter: drop-shadow(0 0 4px var(--dark-transparent-60));
+}
+
+header h1 {
+  font-family: "Sora", sans-serif;
+  font-weight: bold;
+  font-size: 2.5rem;
+  letter-spacing: 0.6rem;
+  margin: 0;
+  text-transform: uppercase;
+  background: var(--header-title-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#quiz {
+  max-width: 50rem;
+  margin: 2rem auto;
+  padding: 3rem;
+  background: var(--quiz-background);
+  color: var(--quiz-text);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px var(--dark-transparent-30);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+#quiz::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    var(--transparent-5) 0%,
+    var(--transparent-2) 100%
+  );
+  pointer-events: none;
+}
+
+#question-overview {
+  font-family: "Sora", sans-serif;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: var(--transparent-70);
+  margin: 0 0 1rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+}
+
+#question progress {
+  width: 60%;
+  height: 0.6rem;
+  border-radius: 30px;
+  background: var(--quiz-progress);
+  margin: 0 auto 2rem auto;
+  box-shadow: 0 2px 8px var(--dark-transparent-30);
+}
+
+#question progress::-webkit-progress-bar {
+  background: var(--transparent-20);
+  border-radius: 30px;
+}
+
+#question progress::-webkit-progress-value {
+  background: var(--quiz-progress);
+  border-radius: 30px;
+}
+
+#question progress.answered {
+  background: var(--answered);
+}
+
+#question progress.answered::-webkit-progress-value {
+  background: var(--answered);
+}
+
+#question progress.answered::-webkit-progress-bar {
+  background: var(--answered-dark-2);
+}
+
+#question progress.correct {
+  background: var(--correct);
+}
+
+#question progress.correct::-webkit-progress-value {
+  background: var(--correct);
+}
+
+#question progress.correct::-webkit-progress-bar {
+  background: var(--correct-dark-2);
+}
+
+#question progress.wrong {
+  background: var(--wrong);
+}
+
+#question progress.wrong::-webkit-progress-value {
+  background: var(--wrong);
+}
+
+#question progress.wrong::-webkit-progress-bar {
+  background: var(--wrong-dark-2);
+}
+
+#question h2 {
+  font-family: "Sora", sans-serif;
+  font-size: 1.8rem;
+  font-weight: 500;
+  margin: 0 0 3rem 0;
+  color: var(--text-color);
+  line-height: 1.6;
+  text-shadow: 0 1px 2px var(--dark-transparent-30);
+}
+
+#answers {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.answer {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.answer button {
+  display: inline-block;
+  width: 100%;
+  font-family: "Sora", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 1.2rem 2rem;
+  border: 2px solid var(--transparent-10);
+  border-radius: 16px;
+  background: var(--transparent-5);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  backdrop-filter: blur(10px);
+}
+
+.answer button:hover,
+.answer button:focus {
+  background: var(--transparent-10);
+  border-color: var(--transparent-30);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px var(--dark-transparent-30);
+}
+
+.answer button.selected {
+  background: var(--answered-dark);
+  border-color: var(--selected-background-color);
+  color: var(--answered);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px var(--answered-dark);
+}
+
+.answer button.correct {
+  background: var(--correct-dark);
+  border-color: var(--correct-background-color);
+  color: var(--correct);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px var(--correct-dark);
+}
+
+.answer button.wrong {
+  background: var(--wrong-dark);
+  border-color: var(--wrong-background-color);
+  color: var(--wrong);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px var(--wrong-dark);
+}
+
+#skip-action {
+  margin-top: 2.5rem;
+}
+
+#summary {
+  max-width: 50rem;
+  margin: 2rem auto;
+  padding: 3rem;
+  background: var(--quiz-background);
+  color: var(--summary-text-dark);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px var(--dark-transparent-30);
+  animation: slide-in-from-bottom 0.7s ease-out;
+}
+
+#summary img {
+  display: block;
+  width: 6rem;
+  height: 6rem;
+  object-fit: contain;
+  margin: 0 auto 2rem auto;
+  padding: 1.5rem;
+  filter: drop-shadow(0 10px 20px var(--dark-transparent-30));
+  border: 3px solid var(--transparent-30);
+  border-radius: 50%;
+  background: var(--summary-gradient-warm);
+  animation: float 3s ease-in-out infinite;
+}
+
+#summary h2 {
+  font-family: "Sora", sans-serif;
+  font-size: 3.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 0 0 1rem 0;
+  text-transform: uppercase;
+  background: var(--summary-gradient-success);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+#summary ol {
+  list-style: none;
+  margin: 3rem auto;
+  padding: 0;
+  text-align: center;
+}
+
+#summary li {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: var(--transparent-5);
+  border-radius: 12px;
+  border: 1px solid var(--transparent-10);
+  backdrop-filter: blur(5px);
+}
+
+#summary h3 {
+  font-family: "Sora", sans-serif;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0 auto 1rem auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--summary-gradient-purple);
+  color: var(--text-color);
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  box-shadow: 0 4px 16px var(--dark-transparent-20);
+}
+
+#summary .question {
+  margin: 0.5rem 0 1rem 0;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+#summary .user-answer {
+  margin: 0.5rem 0;
+  font-family: "Sora", sans-serif;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  display: inline-block;
+  background: var(--transparent-10);
+  border: 1px solid var(--transparent-10);
+}
+
+#summary .user-answer.correct {
+  color: var(--correct);
+  background: var(--correct-dark);
+  border-color: var(--correct-dark);
+}
+
+#summary .user-answer.wrong {
+  color: var(--wrong);
+  background: var(--wrong-dark);
+  border-color: var(--wrong-dark);
+}
+
+#summary .user-answer.skipped {
+  color: var(--skipped);
+  background: var(--skipped-dark);
+  border-color: var(--skipped-background-color);
+  font-weight: normal;
+}
+
+#summary-stats {
+  display: flex;
+  gap: 2rem;
+  width: 80%;
+  margin: 3rem auto;
+  padding: 2rem;
+  border-radius: 16px;
+  background: var(--transparent-10);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--transparent-10);
+  box-shadow: 0 8px 32px var(--dark-transparent-10);
+}
+
+#summary-stats p {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+#summary-stats .number {
+  font-family: "Sora", sans-serif;
+  font-size: 3.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: var(--text-color);
+}
+
+#summary-stats .text {
+  font-family: "Sora", sans-serif;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: center;
+  color: var(--text-color);
+  margin-top: -0.5rem;
+  margin-left: 0.2rem;
+  letter-spacing: 0.15rem;
+  text-shadow: 0 1px 2px var(--dark-transparent-10);
+}
+
+#restart-quiz {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  z-index: 1000;
+}
+
+#restart-quiz button {
+  font-family: "Sora", sans-serif;
+  font-size: 1.3rem;
+  font-weight: bold;
+  border: 2px solid var(--transparent-30);
+  color: var(--text-color);
+  padding: 1rem 3rem;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  background: var(--transparent-10);
+  backdrop-filter: blur(10px);
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+}
+
+#restart-quiz button:hover,
+#restart-quiz button:focus {
+  background: var(--transparent-20);
+  border-color: var(--transparent-50);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px var(--dark-transparent-30);
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  margin: 4rem auto;
+  padding: 2rem;
+  color: var(--quiz-text);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px var(--dark-transparent-30);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+.intro h3 {
+  font-family: "Sora", sans-serif;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  color: var(--title-color);
+  padding: 0.5rem 1rem;
+  margin: 0;
+  border: 2px solid var(--title-border);
+  border-radius: 12px;
+  background: var(--title-bg);
+  backdrop-filter: blur(5px);
+  box-shadow: 0 8px 25px var(--dark-transparent-30);
+}
+
+.intro p {
+  font-size: 1.2rem;
+  text-align: center;
+  line-height: 1.6;
+  color: var(--text-color);
+  margin: 1rem 0;
+  padding: 1rem;
+}
+
+#buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 100%;
+  margin: 2rem auto;
+  padding: 1rem;
+  gap: 2rem;
+}
+
+#buttons button {
+  font-family: "Sora", sans-serif;
+  font-size: 1.3rem;
+  font-weight: bold;
+  border: 2px solid var(--transparent-30);
+  color: var(--text-color);
+  padding: 1rem 3rem;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  background: var(--transparent-10);
+  backdrop-filter: blur(10px);
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  box-shadow: 0 8px 25px var(--dark-transparent-30);
+}
+
+#buttons button:hover,
+#buttons button:focus {
+  background: var(--transparent-20);
+  border-color: var(--transparent-50);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px var(--dark-transparent-30);
+}
+
+#buttons button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 16px var(--dark-transparent-30);
+}
+
+@keyframes slide-in-from-bottom {
+  0% {
+    opacity: 0;
+    transform: translateY(10%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@media (max-width: 768px) {
+  .intro {
+    width: 90%;
+    margin: 2rem auto;
+    padding: 1.5rem;
+  }
+
+  #buttons {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  #buttons button {
+    font-size: 1.1rem;
+    padding: 0.8rem 2rem;
+  }
+
+  #restart-quiz {
+    top: 3rem;
+    right: 2rem;
+  }
+
+  #restart-quiz button {
+    font-size: 1rem;
+    padding: 0.5rem 1.5rem;
+  }
+
+  #header {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 1rem;
+    text-align: right;
+    padding: 1rem 2rem;
+  }
+
+  #header img {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  header h1 {
+    font-family: "Sora", sans-serif;
+    font-weight: bold;
+    font-size: 1.5rem;
+    letter-spacing: 0.6rem;
+    margin: 0;
+    text-transform: uppercase;
+    background: var(--header-title-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}

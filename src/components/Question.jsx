@@ -1,13 +1,14 @@
 import QuestionTimer from "./QuestionTimer";
 import Answers from "./Answers";
 import { useState } from "react";
-import questions from "../questions";
 
-export default function Question({ index, onSelectAnswer, onSkipAnswer }) {
+export default function Question({ index, onSelectAnswer, onSkipAnswer, topicQuestions }) {
   const [answer, setAnswer] = useState({
     selectedAnswer: "",
     isCorrect: null,
   });
+
+  const currentQuestion = topicQuestions[index];
 
   let timer = 10000;
 
@@ -28,7 +29,7 @@ export default function Question({ index, onSelectAnswer, onSkipAnswer }) {
     setTimeout(() => {
       setAnswer({
         selectedAnswer: answer,
-        isCorrect: questions[index].answers[0] === answer,
+        isCorrect: currentQuestion.answers[0] === answer,
       });
 
       setTimeout(() => {
@@ -53,9 +54,9 @@ export default function Question({ index, onSelectAnswer, onSkipAnswer }) {
         mode={answerState}
       />
 
-      <h2>{index + 1}. {questions[index].text}</h2>
+      <h2>{index + 1}. {currentQuestion.text}</h2>
       <Answers
-        answers={questions[index].answers}
+        answers={currentQuestion.answers}
         selectedAnswer={answer.selectedAnswer}
         answerState={answerState}
         onSelect={handleSelectAnswer}
